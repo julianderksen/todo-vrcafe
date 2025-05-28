@@ -1,13 +1,56 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo - VRcafe</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VRcafe ToDo App</title>
+  <link rel="icon" type="image/png" href="img/cropped-Logo-on-purple-1.webp">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>ToDo App - VRcafe</h1>
-    <script src="js/main.js"></script>
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <img src="img/logo.webp" alt="VRcafe logo" class="sidebar-logo">
+
+      <nav id="category-list" class="category-list">
+        <button class="category-button active">Werk</button>
+        <button class="category-button">Persoonlijk</button>
+        <button class="category-button">School</button>
+      </nav>
+
+      <!-- Categorie toevoegen -->
+      <div class="add-category-form">
+        <button id="show-category-input" class="add-category-button">+ Categorie toevoegen</button>
+        <form id="add-category-form" style="display: none;" class="inline-form">
+          <input type="text" id="new-category-input" placeholder="Nieuwe categorie" required>
+          <button type="submit" class="save-category-button">+</button>
+        </form>
+      </div>
+
+      <footer class="sidebar-footer">
+        <span>&copy; Julian Derksen</span>
+      </footer>
+    </aside>
+
+    <!-- Hoofdinhoud -->
+    <main class="main-content">
+      <div class="todo-wrapper">
+        <h2 id="current-category">Werk</h2>
+        <form id="todo-form" class="todo-form">
+          <input type="text" id="todo-input" placeholder="Nieuwe taak toevoegen" required>
+          <button type="submit" class="add-task-button">Toevoegen</button>
+        </form>
+
+        <ul id="todo-list" class="todo-list">
+          <!-- Taken komen hier -->
+        </ul>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,241 @@
+/* Algemeen layout */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #2d1549;
+    color: white;
+  }
+  
+  .app-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    background-color: #311c58;
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .sidebar-logo,
+  .sidebar-logo-bottom {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #aaa;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.8;
+  }
+  
+  .sidebar-footer span {
+    font-style: italic;
+  }
+  
+  
+  .category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .category-button {
+    background-color: #6e45b8;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .category-button:hover,
+  .category-button.active {
+    background-color: #9e73e3;
+  }
+  
+  .add-category-button {
+    margin-top: 10px;
+    background-color: #6e45b8;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-category-button:hover {
+    background-color: #9e73e3;
+  }
+  
+  /* Main content */
+  .main-content {
+    flex: 1;
+    background-color: #5e3a91;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  h2#current-category {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .todo-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  #todo-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .add-task-button {
+    background-color: #2d1549;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-task-button:hover {
+    background-color: #1d0d33;
+  }
+  
+  .todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .todo-list li {
+    background-color: #7b55c7;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .todo-list li.completed {
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+  
+  .todo-list button {
+    background-color: transparent;
+    border: 2px solid white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .todo-list button.checked {
+    background-color: white;
+  }
+
+  .todo-wrapper {
+    background-color: #a682e4;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+
+  .checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: transparent;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .checkmark.checked {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+  }
+  
+  .task-item.fade-out {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+
+  .add-category-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .inline-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  #new-category-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background-color: #2a2a3d;
+    color: white;
+  }
+  
+  .save-category-button {
+    background-color: #9147ff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .save-category-button:hover {
+    background-color: #772ce8;
+  }
+  
+
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  
+  
+  
