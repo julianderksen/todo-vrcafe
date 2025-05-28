@@ -20,14 +20,9 @@
         <button class="category-button">School</button>
       </nav>
 
-      <!-- Categorie toevoegen -->
-      <div class="add-category-form">
-        <button id="show-category-input" class="add-category-button">+ Categorie toevoegen</button>
-        <form id="add-category-form" style="display: none;" class="inline-form">
-          <input type="text" id="new-category-input" placeholder="Nieuwe categorie" required>
-          <button type="submit" class="save-category-button">+</button>
-        </form>
-      </div>
+      <form id="add-category-form" class="add-category-form">
+        <button type="submit" class="add-category-button">+ Categorie toevoegen</button>
+      </form>
 
       <footer class="sidebar-footer">
         <span>&copy; Julian Derksen</span>
@@ -37,18 +32,24 @@
     <!-- Hoofdinhoud -->
     <main class="main-content">
       <div class="todo-wrapper">
+        
         <h2 id="current-category">Werk</h2>
+
+        <!-- Formulier voor nieuwe taak -->
         <form id="todo-form" class="todo-form">
           <input type="text" id="todo-input" placeholder="Nieuwe taak toevoegen" required>
           <button type="submit" class="add-task-button">Toevoegen</button>
         </form>
 
-        <ul id="todo-list" class="todo-list">
-          <!-- Taken komen hier -->
-        </ul>
+        <!-- Actieve taken -->
+        <ul id="todo-list" class="todo-list"></ul>
+
+        <!-- Afgeronde taken -->
+        <h3>Afgeronde taken</h3>
+        <ul id="completed-list" class="todo-list completed-list"></ul>
+
       </div>
     </main>
-
   </div>
 
   <script src="js/main.js"></script>

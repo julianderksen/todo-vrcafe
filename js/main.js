@@ -1,24 +1,19 @@
 const todoForm = document.getElementById('todo-form');
 const todoInput = document.getElementById('todo-input');
 const todoList = document.getElementById('todo-list');
+const completedList = document.getElementById('completed-list');
 const categoryButtonsContainer = document.getElementById('category-list');
 const currentCategoryTitle = document.getElementById('current-category');
-
-const showCategoryInputBtn = document.getElementById('show-category-input');
 const addCategoryForm = document.getElementById('add-category-form');
-const newCategoryInput = document.getElementById('new-category-input');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let categories = ['Werk', 'Persoonlijk', 'School'];
 let activeCategory = 'Werk';
 
-let categoryInputTimeout = null;
-
 function saveTasks() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// === Categorieën renderen ===
 function renderCategories() {
   categoryButtonsContainer.innerHTML = '';
 
@@ -40,7 +35,6 @@ function renderCategories() {
   });
 }
 
-// === Taken toevoegen ===
 todoForm.addEventListener('submit', e => {
   e.preventDefault();
   if (!todoInput.value.trim()) return;
@@ -56,9 +50,10 @@ todoForm.addEventListener('submit', e => {
   renderTasks();
 });
 
-// === Taken renderen ===
 function renderTasks() {
   todoList.innerHTML = '';
+  completedList.innerHTML = '';
+
   const filtered = tasks.filter(task => task.category === activeCategory);
 
   filtered.forEach(task => {
@@ -68,85 +63,92 @@ function renderTasks() {
     const taskText = document.createElement('span');
     taskText.textContent = task.text;
 
-    const checkBtn = document.createElement('button');
-    checkBtn.classList.add('checkmark');
+    if (!task.done) {
+      // Niet-afgeronde taak
+      const checkBtn = document.createElement('button');
+      checkBtn.classList.add('checkmark');
 
-    checkBtn.addEventListener('click', () => {
-      checkBtn.classList.add('checked');
-      li.classList.add('fade-out');
-      setTimeout(() => {
-        const taskIndex = tasks.indexOf(task);
-        tasks.splice(taskIndex, 1);
+      checkBtn.addEventListener('click', () => {
+        task.done = true;
         saveTasks();
         renderTasks();
-      }, 300);
-    });
+      });
 
-    li.appendChild(taskText);
-    li.appendChild(checkBtn);
-    todoList.appendChild(li);
-  });
-}
+      li.appendChild(taskText);
+      li.appendChild(checkBtn);
+      todoList.appendChild(li);
+    } else {
+      // Afgeronde taak
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '🗑️';
+      deleteBtn.classList.add('delete-task');
 
-// === Toon categorie-inputveld ===
-function showCategoryInput() {
-  addCategoryForm.classList.remove('fade-out');
-  addCategoryForm.style.display = 'flex';
-  newCategoryInput.focus();
-  monitorInputForTimeout(); // start timer monitor
-}
+      deleteBtn.addEventListener('click', () => {
+        const index = tasks.indexOf(task);
+        if (index !== -1) {
+          tasks.splice(index, 1);
+          saveTasks();
+          renderTasks();
+        }
+      });
 
-// === Monitor inputveld gedrag ===
-function monitorInputForTimeout() {
-  if (categoryInputTimeout) clearTimeout(categoryInputTimeout);
-
-  function checkInput() {
-    if (newCategoryInput.value.trim() === '') {
-      categoryInputTimeout = setTimeout(() => {
-        hideCategoryInput();
-      }, 10000); // 10 sec als veld leeg is
+      li.classList.add('completed');
+      li.appendChild(taskText);
+      li.appendChild(deleteBtn);
+      completedList.appendChild(li);
     }
-  }
-
-  // Voer check uit bij starten
-  checkInput();
-
-  // Elke keer dat je typt of veld verandert
-  newCategoryInput.addEventListener('input', () => {
-    if (categoryInputTimeout) clearTimeout(categoryInputTimeout);
-    checkInput();
   });
 }
 
-// === Verberg categorieveld met fade-out ===
-function hideCategoryInput() {
-  addCategoryForm.classList.add('fade-out');
-  setTimeout(() => {
-    addCategoryForm.style.display = 'none';
-    newCategoryInput.value = '';
-    addCategoryForm.classList.remove('fade-out');
-  }, 300);
-}
+let inputVisible = false;
+let hideTimer = null;
 
-// === Knop: categorie toevoegen tonen ===
-showCategoryInputBtn.addEventListener('click', () => {
-  showCategoryInput();
-});
-
-// === Nieuwe categorie toevoegen ===
 addCategoryForm.addEventListener('submit', e => {
   e.preventDefault();
-  const name = newCategoryInput.value.trim();
-  if (!name || categories.includes(name)) return;
+  if (inputVisible) return;
 
-  categories.push(name);
-  activeCategory = name;
-  renderCategories();
-  currentCategoryTitle.textContent = activeCategory;
-  renderTasks();
-  hideCategoryInput();
+  inputVisible = true;
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Nieuwe categorie';
+  input.classList.add('new-category-input');
+
+  addCategoryForm.appendChild(input);
+  input.focus();
+
+  function resetTimer() {
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      if (!input.value.trim()) {
+        input.classList.add('fade-out');
+        setTimeout(() => {
+          addCategoryForm.removeChild(input);
+          inputVisible = false;
+        }, 300);
+      }
+    }, 10000);
+  }
+
+  input.addEventListener('input', resetTimer);
+  resetTimer();
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const name = input.value.trim();
+      if (!name || categories.includes(name)) return;
+
+      categories.push(name);
+      activeCategory = name;
+      renderCategories();
+      currentCategoryTitle.textContent = activeCategory;
+      renderTasks();
+
+      addCategoryForm.removeChild(input);
+      inputVisible = false;
+    }
+  });
 });
 
-// Init
 renderCategories();
 renderTasks();
