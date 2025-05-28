@@ -1,0 +1,8 @@
+# Onnodige systeemfiles
+.DS_Store
+
+# Logbestanden
+*.log
+
+# Node (als je later npm zou gebruiken)
+node_modules/
