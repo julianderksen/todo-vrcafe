@@ -1,9 +1,8 @@
-/* CSS bestand */
-
+/* Basis */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   background-color: #000;
   color: white;
 }
@@ -11,6 +10,7 @@ body {
 .app-container {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -20,11 +20,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.sidebar-logo {
-  width: 100%;
-  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+  z-index: 10;
 }
 
 .sidebar-footer {
@@ -35,10 +32,6 @@ body {
   color: #aaa;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   opacity: 0.8;
-}
-
-.sidebar-footer span {
-  font-style: italic;
 }
 
 .category-list {
@@ -64,60 +57,56 @@ body {
 }
 
 .add-category-form {
-  margin-top: 20px;
   display: flex;
-  flex-direction: column;
   gap: 10px;
-}
-
-.add-category-form .add-category-button {
-  color: #afffff;
-  cursor: pointer;
-  position: relative;
-  isolation: isolate;
-  display: inline-grid;
-  place-content: center;
-  padding: 0.5em 1.5em;
-  font-size: 17px;
-  border: 0;
-  text-transform: uppercase;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.6);
-  background: #080312;
-  border-radius: 0.5em;
-  transition: color 250ms;
+  margin-top: 20px;
 }
 
 .new-category-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex: 1;
+  padding: 8px;
+  font-size: 0.9rem;
   border-radius: 6px;
-  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: #2a2a3d;
-  color: #ffffff;
-  outline: none;
-  margin-top: 8px;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  color: white;
 }
 
-.new-category-input:focus {
-  border: 1px solid #c084fc;
-  box-shadow: 0 0 6px #9147ff;
-  background-color: #34344a;
+.save-category-button {
+  background-color: #9147ff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1.2rem;
+  padding: 4px 10px;
+  cursor: pointer;
 }
 
 .main-content {
   flex: 1;
   background-color: #1e1921;
   padding: 40px;
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
-h2#current-category {
-  font-size: 2rem;
-  margin-bottom: 20px;
+.menu-toggle {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.todo-wrapper {
+  background-color: #640e8e;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .todo-form {
@@ -139,15 +128,10 @@ h2#current-category {
   color: black;
   border: none;
   padding: 10px 20px;
+  border-radius: 8px;
   font-weight: bold;
   font-size: 1rem;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.add-task-button:hover {
-  background-color: #1d0d33;
 }
 
 .todo-list {
@@ -168,31 +152,6 @@ h2#current-category {
   align-items: center;
 }
 
-.todo-list li.completed {
-  opacity: 0.6;
-  text-decoration: line-through;
-}
-
-.todo-list button {
-  background-color: transparent;
-  border: 2px solid white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.todo-list button.checked {
-  background-color: white;
-}
-
-.todo-wrapper {
-  background-color: #640e8e;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
 .checkmark {
   width: 18px;
   height: 18px;
@@ -201,78 +160,51 @@ h2#current-category {
   background-color: transparent;
   margin-left: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.checkmark.checked {
-  background-color: #2ecc71;
-  border-color: #2ecc71;
-}
-
-.task-item.fade-out {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-out {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* ... Je bestaande styles blijven ... */
-
-/* Burger menu icon */
-.burger-menu {
-  display: none;
-  flex-direction: column;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1100;
+.delete-task {
+  border: none;
+  background: none;
+  font-size: 1.2rem;
   cursor: pointer;
 }
-.burger-menu .bar {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 4px 0;
-  transition: 0.4s;
+
+/* Overlay & mobiel */
+#sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9;
 }
 
-/* Responsive layout */
-@media screen and (max-width: 768px) {
-  .burger-menu {
-    display: flex;
-  }
+#sidebar.visible ~ #sidebar-overlay {
+  display: block;
+}
 
-  .app-container {
-    flex-direction: column;
-  }
-
+/* Responsive */
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
+    left: 0;
     top: 0;
-    left: -100%;
-    width: 70%;
-    height: 100%;
-    background-color: #640e8e;
-    z-index: 1000;
-    padding: 20px;
-    transition: left 0.3s ease;
+    bottom: 0;
+    transform: translateX(-100%);
+    width: 240px;
   }
 
   .sidebar.visible {
-    left: 0;
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: block;
   }
 
   .main-content {
     padding: 20px;
   }
-
-  .todo-wrapper {
-    margin-top: 60px;
-  }
 }
-
