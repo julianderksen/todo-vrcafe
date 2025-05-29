@@ -72,11 +72,16 @@ function renderTasks() {
       checkBtn.classList.add('checkmark');
       checkBtn.addEventListener('click', () => {
         li.classList.add('complete-animate');
+        const todoWrapper = document.querySelector('.todo-wrapper');
+        todoWrapper.classList.add('animate-gradient');
         setTimeout(() => {
           task.done = true;
           saveTasks();
           renderTasks();
         }, 300);
+        setTimeout(() => {
+          todoWrapper.classList.remove('animate-gradient');
+        }, 5000);
       });
       li.appendChild(taskText);
       li.appendChild(checkBtn);

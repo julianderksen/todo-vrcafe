@@ -169,6 +169,20 @@ body {
   max-height: none;
 }
 
+.todo-wrapper h2 {
+  color: #35f2aa;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.todo-wrapper h3 {
+  color: #9e73e3;
+  margin: 30px 0 15px 0;
+  font-size: 1.4rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
 .todo-list li {
   background-color: #7b55c7;
   padding: 15px;
@@ -176,6 +190,18 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-left: 4px solid #35f2aa;
+}
+
+.completed-list li {
+  background-color: #7b55c7;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #9e73e3;
+  opacity: 0.8;
 }
 
 .checkmark {
@@ -337,4 +363,20 @@ body {
 .todo-list::-webkit-scrollbar-thumb:hover,
 .completed-list::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes wrapperGradient {
+  0% {
+    background-color: #640e8e;
+  }
+  50% {
+    background: linear-gradient(135deg, #640e8e 0%, #3a3ad6 100%);
+  }
+  100% {
+    background-color: #640e8e;
+  }
+}
+
+.todo-wrapper.animate-gradient {
+  animation: wrapperGradient 5s ease;
 }
