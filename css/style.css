@@ -430,3 +430,66 @@ body, html {
   position: relative;
   z-index: 3;
 }
+
+.help-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #35f2aa;
+  color: #640e8e;
+  font-size: 2rem;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 1001;
+  transition: background 0.2s;
+}
+.help-btn:hover {
+  background: #2edf99;
+}
+
+.help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30,25,33,0.85);
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-content {
+  background: #fff;
+  color: #640e8e;
+  border-radius: 16px;
+  padding: 32px 24px 24px 24px;
+  max-width: 90vw;
+  width: 400px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+  position: relative;
+}
+.close-help {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #640e8e;
+  cursor: pointer;
+}
+.help-content h2 {
+  margin-top: 0;
+  color: #35f2aa;
+}
+.help-content ul {
+  padding-left: 20px;
+}
+.help-content li {
+  margin-bottom: 10px;
+}

@@ -181,5 +181,21 @@ document.addEventListener('touchend', e => {
 // Filter event listener
 filterSelect.addEventListener('change', renderTasks);
 
+// Help button functionaliteit
+const helpBtn = document.getElementById('help-btn');
+const helpOverlay = document.getElementById('help-overlay');
+const closeHelp = document.getElementById('close-help');
+if (helpBtn && helpOverlay && closeHelp) {
+  helpBtn.addEventListener('click', () => {
+    helpOverlay.style.display = 'flex';
+  });
+  closeHelp.addEventListener('click', () => {
+    helpOverlay.style.display = 'none';
+  });
+  helpOverlay.addEventListener('click', (e) => {
+    if (e.target === helpOverlay) helpOverlay.style.display = 'none';
+  });
+}
+
 renderCategories();
 renderTasks();
