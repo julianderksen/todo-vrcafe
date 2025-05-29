@@ -40,7 +40,7 @@ function renderCategories() {
 todoForm.addEventListener('submit', e => {
   e.preventDefault();
   if (!todoInput.value.trim()) return;
-  tasks.push({ text: todoInput.value.trim(), category: activeCategory, done: false, createdAt: Date.now() });
+  tasks.push({ text: todoInput.value.trim(), category: activeCategory, done: false, createdAt: Date.now(), progress: 0 });
   saveTasks();
   todoInput.value = '';
   renderTasks();
@@ -65,28 +65,58 @@ function renderTasks() {
   filteredTasks.forEach(task => {
     const li = document.createElement('li');
     li.classList.add('task-item');
+    // Progress bar
+    const progressBar = document.createElement('div');
+    progressBar.className = 'progress-bar';
+    progressBar.style.width = (task.progress || 0) + '%';
+    // Percentage label in het midden
+    const percentLabel = document.createElement('span');
+    percentLabel.className = 'progress-label';
+    percentLabel.textContent = (task.progress || 0) + '%';
+    progressBar.appendChild(percentLabel);
+    li.appendChild(progressBar);
+
     const taskText = document.createElement('span');
     taskText.textContent = task.text;
+    taskText.style.zIndex = 2;
+    li.appendChild(taskText);
+
     if (!task.done) {
-      const checkBtn = document.createElement('button');
-      checkBtn.classList.add('checkmark');
-      checkBtn.addEventListener('click', () => {
-        li.classList.add('complete-animate');
-        const todoWrapper = document.querySelector('.todo-wrapper');
-        todoWrapper.classList.add('animate-gradient');
-        setTimeout(() => {
-          task.done = true;
-          saveTasks();
-          renderTasks();
-        }, 300);
-        setTimeout(() => {
-          todoWrapper.classList.remove('animate-gradient');
-        }, 5000);
+      // Slider altijd zichtbaar
+      const slider = document.createElement('input');
+      slider.type = 'range';
+      slider.min = 0;
+      slider.max = 100;
+      slider.value = task.progress || 0;
+      slider.className = 'progress-slider';
+      slider.addEventListener('input', () => {
+        task.progress = parseInt(slider.value);
+        saveTasks();
+        progressBar.style.width = task.progress + '%';
+        percentLabel.textContent = task.progress + '%';
+        // Automatisch afronden als 100%
+        if (task.progress === 100 && !task.done) {
+          li.classList.add('complete-animate');
+          const todoWrapper = document.querySelector('.todo-wrapper');
+          todoWrapper.classList.add('animate-gradient');
+          setTimeout(() => {
+            task.done = true;
+            saveTasks();
+            renderTasks();
+          }, 300);
+          setTimeout(() => {
+            todoWrapper.classList.remove('animate-gradient');
+          }, 5000);
+        }
       });
-      li.appendChild(taskText);
-      li.appendChild(checkBtn);
+      slider.addEventListener('change', () => {
+        saveTasks();
+        renderTasks();
+      });
+      li.appendChild(slider);
       todoList.appendChild(li);
     } else {
+      // Alleen tekst en prullenbakje bij afgeronde taken
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '🗑️';
       deleteBtn.classList.add('delete-task');
@@ -99,7 +129,10 @@ function renderTasks() {
         }, 300);
       });
       li.classList.add('completed');
-      li.appendChild(taskText);
+      li.innerHTML = '';
+      const taskTextCompleted = document.createElement('span');
+      taskTextCompleted.textContent = task.text;
+      li.appendChild(taskTextCompleted);
       li.appendChild(deleteBtn);
       completedList.appendChild(li);
     }
