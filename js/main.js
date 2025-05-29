@@ -5,6 +5,8 @@ const completedList = document.getElementById('completed-list');
 const categoryButtonsContainer = document.getElementById('category-list');
 const currentCategoryTitle = document.getElementById('current-category');
 const addCategoryForm = document.getElementById('add-category-form');
+const burgerMenu = document.getElementById('burger-menu');
+const sidebar = document.getElementById('sidebar');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let categories = ['Werk', 'Persoonlijk', 'School'];
@@ -29,6 +31,7 @@ function renderCategories() {
       activeCategory = category;
       currentCategoryTitle.textContent = activeCategory;
       renderTasks();
+      sidebar.classList.remove('visible'); // Sidebar sluiten op mobiel
     });
 
     categoryButtonsContainer.appendChild(button);
@@ -64,7 +67,6 @@ function renderTasks() {
     taskText.textContent = task.text;
 
     if (!task.done) {
-      // Niet-afgeronde taak
       const checkBtn = document.createElement('button');
       checkBtn.classList.add('checkmark');
 
@@ -78,7 +80,6 @@ function renderTasks() {
       li.appendChild(checkBtn);
       todoList.appendChild(li);
     } else {
-      // Afgeronde taak
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '🗑️';
       deleteBtn.classList.add('delete-task');
@@ -148,6 +149,11 @@ addCategoryForm.addEventListener('submit', e => {
       inputVisible = false;
     }
   });
+});
+
+// Burger menu toggle
+burgerMenu.addEventListener('click', () => {
+  sidebar.classList.toggle('visible');
 });
 
 renderCategories();
