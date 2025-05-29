@@ -48,12 +48,15 @@ body {
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
-.category-button:hover,
 .category-button.active {
   background-color: #9e73e3;
+}
+
+.category-button:hover:not(.active) {
+  transform: scale(1.05);
 }
 
 .add-category-form {
@@ -87,6 +90,8 @@ body {
   background-color: #1e1921;
   padding: 40px;
   position: relative;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 .menu-toggle {
@@ -107,6 +112,10 @@ body {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .todo-form {
@@ -132,6 +141,12 @@ body {
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.add-task-button:hover {
+  transform: scale(1.05);
+  background-color: #2edf99;
 }
 
 .todo-list {
@@ -141,6 +156,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.completed-list {
+  margin-top: 20px;
+}
+
+/* Verwijder de individuele scrollbare gebieden */
+.todo-list,
+.completed-list {
+  overflow-y: visible;
+  max-height: none;
 }
 
 .todo-list li {
@@ -185,6 +211,29 @@ body {
   display: block;
 }
 
+/* Filter dropdown */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  font-size: 1rem;
+  color: #fff;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: #2a2a3d;
+  color: white;
+  cursor: pointer;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .sidebar {
@@ -206,5 +255,86 @@ body {
 
   .main-content {
     padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
+
+  .filter-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  .todo-wrapper {
+    max-height: none;
+    height: auto;
+  }
+
+  .todo-list,
+  .completed-list {
+    max-height: none;
+  }
+}
+
+/* Animatie voor afvinken */
+.complete-animate {
+  animation: completeTask 0.3s ease forwards;
+}
+
+@keyframes completeTask {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+/* Animatie voor verwijderen */
+.delete-animate {
+  animation: deleteTask 0.3s ease forwards;
+}
+
+@keyframes deleteTask {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Voeg scrollbar styling toe voor betere gebruikerservaring */
+.todo-wrapper::-webkit-scrollbar,
+.todo-list::-webkit-scrollbar,
+.completed-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.todo-wrapper::-webkit-scrollbar-track,
+.todo-list::-webkit-scrollbar-track,
+.completed-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.todo-wrapper::-webkit-scrollbar-thumb,
+.todo-list::-webkit-scrollbar-thumb,
+.completed-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.todo-wrapper::-webkit-scrollbar-thumb:hover,
+.todo-list::-webkit-scrollbar-thumb:hover,
+.completed-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }

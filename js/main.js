@@ -8,6 +8,7 @@ const addCategoryForm = document.getElementById('add-category-form');
 const sidebar = document.getElementById('sidebar');
 const menuToggle = document.getElementById('menu-toggle');
 const sidebarOverlay = document.getElementById('sidebar-overlay');
+const filterSelect = document.getElementById('filter-select');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let categories = ['Werk', 'Persoonlijk', 'School'];
@@ -39,7 +40,7 @@ function renderCategories() {
 todoForm.addEventListener('submit', e => {
   e.preventDefault();
   if (!todoInput.value.trim()) return;
-  tasks.push({ text: todoInput.value.trim(), category: activeCategory, done: false });
+  tasks.push({ text: todoInput.value.trim(), category: activeCategory, done: false, createdAt: Date.now() });
   saveTasks();
   todoInput.value = '';
   renderTasks();
@@ -48,7 +49,20 @@ todoForm.addEventListener('submit', e => {
 function renderTasks() {
   todoList.innerHTML = '';
   completedList.innerHTML = '';
-  tasks.filter(t => t.category === activeCategory).forEach(task => {
+  let filteredTasks = tasks.filter(t => t.category === activeCategory);
+
+  const sortOption = filterSelect.value;
+  if (sortOption === 'alphabetical') {
+    filteredTasks.sort((a, b) => a.text.localeCompare(b.text));
+  } else if (sortOption === 'alphabetical-reverse') {
+    filteredTasks.sort((a, b) => b.text.localeCompare(a.text));
+  } else if (sortOption === 'date') {
+    filteredTasks.sort((a, b) => a.createdAt - b.createdAt);
+  } else if (sortOption === 'date-reverse') {
+    filteredTasks.sort((a, b) => b.createdAt - a.createdAt);
+  }
+
+  filteredTasks.forEach(task => {
     const li = document.createElement('li');
     li.classList.add('task-item');
     const taskText = document.createElement('span');
@@ -57,9 +71,12 @@ function renderTasks() {
       const checkBtn = document.createElement('button');
       checkBtn.classList.add('checkmark');
       checkBtn.addEventListener('click', () => {
-        task.done = true;
-        saveTasks();
-        renderTasks();
+        li.classList.add('complete-animate');
+        setTimeout(() => {
+          task.done = true;
+          saveTasks();
+          renderTasks();
+        }, 300);
       });
       li.appendChild(taskText);
       li.appendChild(checkBtn);
@@ -69,9 +86,12 @@ function renderTasks() {
       deleteBtn.textContent = '🗑️';
       deleteBtn.classList.add('delete-task');
       deleteBtn.addEventListener('click', () => {
-        tasks = tasks.filter(t => t !== task);
-        saveTasks();
-        renderTasks();
+        li.classList.add('delete-animate');
+        setTimeout(() => {
+          tasks = tasks.filter(t => t !== task);
+          saveTasks();
+          renderTasks();
+        }, 300);
       });
       li.classList.add('completed');
       li.appendChild(taskText);
@@ -81,7 +101,6 @@ function renderTasks() {
   });
 }
 
-// Toevoegen categorie via form
 addCategoryForm.addEventListener('submit', e => {
   e.preventDefault();
   const input = document.getElementById('new-category-input');
@@ -120,6 +139,9 @@ document.addEventListener('touchend', e => {
     closeSidebar();
   }
 });
+
+// Filter event listener
+filterSelect.addEventListener('change', renderTasks);
 
 renderCategories();
 renderTasks();

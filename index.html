@@ -30,11 +30,25 @@
       <button id="menu-toggle" class="menu-toggle">&#9776;</button>
       <div class="todo-wrapper">
         <h2 id="current-category">Werk</h2>
+
+        <!-- Filter dropdown -->
+        <div class="filter-container">
+          <label for="filter-select" class="filter-label">Sorteren op:</label>
+          <select id="filter-select" class="filter-select">
+            <option value="date">Datum toegevoegd (oudste eerst)</option>
+            <option value="date-reverse">Datum toegevoegd (nieuwste eerst)</option>
+            <option value="alphabetical">Alfabetisch (A-Z)</option>
+            <option value="alphabetical-reverse">Alfabetisch (Z-A)</option>
+          </select>
+        </div>
+
         <form id="todo-form" class="todo-form">
           <input type="text" id="todo-input" placeholder="Nieuwe taak toevoegen" required />
           <button type="submit" class="add-task-button">Toevoegen</button>
         </form>
+
         <ul id="todo-list" class="todo-list"></ul>
+
         <h3>Afgeronde taken</h3>
         <ul id="completed-list" class="todo-list completed-list"></ul>
       </div>
