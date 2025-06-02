@@ -14,10 +14,12 @@ let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let categories = ['Werk', 'Persoonlijk', 'School'];
 let activeCategory = 'Werk';
 
+// Sla taken op in localStorage
 function saveTasks() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
+// Toon de categorieknoppen in de sidebar
 function renderCategories() {
   categoryButtonsContainer.innerHTML = '';
   categories.forEach(category => {
@@ -40,17 +42,20 @@ function renderCategories() {
 todoForm.addEventListener('submit', e => {
   e.preventDefault();
   if (!todoInput.value.trim()) return;
+  // Voeg nieuwe taak toe met standaard voortgang 0%
   tasks.push({ text: todoInput.value.trim(), category: activeCategory, done: false, createdAt: Date.now(), progress: 0 });
   saveTasks();
   todoInput.value = '';
   renderTasks();
 });
 
+// Toon de takenlijst en afgeronde taken
 function renderTasks() {
   todoList.innerHTML = '';
   completedList.innerHTML = '';
   let filteredTasks = tasks.filter(t => t.category === activeCategory);
 
+  // Sorteer taken op basis van geselecteerde optie
   const sortOption = filterSelect.value;
   if (sortOption === 'alphabetical') {
     filteredTasks.sort((a, b) => a.text.localeCompare(b.text));
@@ -65,11 +70,11 @@ function renderTasks() {
   filteredTasks.forEach(task => {
     const li = document.createElement('li');
     li.classList.add('task-item');
-    // Progress bar
+    // Maak en toon de voortgangsbalk
     const progressBar = document.createElement('div');
     progressBar.className = 'progress-bar';
     progressBar.style.width = (task.progress || 0) + '%';
-    // Percentage label in het midden
+    // Toon percentage in het midden van de voortgangsbalk
     const percentLabel = document.createElement('span');
     percentLabel.className = 'progress-label';
     percentLabel.textContent = (task.progress || 0) + '%';
@@ -82,7 +87,7 @@ function renderTasks() {
     li.appendChild(taskText);
 
     if (!task.done) {
-      // Slider altijd zichtbaar
+      // Slider altijd zichtbaar onder niet-afgeronde taken
       const slider = document.createElement('input');
       slider.type = 'range';
       slider.min = 0;
@@ -166,7 +171,7 @@ function closeSidebar() {
   sidebarOverlay.classList.remove('visible');
 }
 
-// Swipe gesture (mobiel)
+// Swipe gesture voor mobiel: sluit sidebar bij swipe naar links
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -178,7 +183,7 @@ document.addEventListener('touchend', e => {
   }
 });
 
-// Filter event listener
+// Sorteer taken bij wijziging van de filter
 filterSelect.addEventListener('change', renderTasks);
 
 // Help button functionaliteit

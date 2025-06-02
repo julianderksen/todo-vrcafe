@@ -1,19 +1,24 @@
-/* Basis */
+/* Algemene basisstijl voor de app */
 body, html {
+  overflow-x: hidden;
+}
+
+body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #000;
   color: white;
-  overflow-x: hidden;
 }
 
+/* Hoofdcontainer met sidebar en hoofdinhoud */
 .app-container {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
+/* Sidebar met categorieën en toevoegen */
 .sidebar {
   background-color: #640e8e;
   width: 250px;
@@ -41,6 +46,7 @@ body, html {
   gap: 10px;
 }
 
+/* Categorieknoppen */
 .category-button {
   background-color: #35f2aa;
   border: none;
@@ -86,6 +92,7 @@ body, html {
   cursor: pointer;
 }
 
+/* Hoofdinhoud (taken, filter, toevoegen) */
 .main-content {
   flex: 1;
   background-color: #1e1921;
@@ -108,6 +115,7 @@ body, html {
   z-index: 11;
 }
 
+/* Blok met alle taken */
 .todo-wrapper {
   background-color: #640e8e;
   padding: 20px;
@@ -150,6 +158,7 @@ body, html {
   background-color: #2edf99;
 }
 
+/* Lijsten met taken */
 .todo-list {
   list-style: none;
   padding: 0;
@@ -163,13 +172,14 @@ body, html {
   margin-top: 20px;
 }
 
-/* Verwijder de individuele scrollbare gebieden */
+/* Verwijder horizontale scroll in lijsten */
 .todo-list,
 .completed-list {
   overflow-y: visible;
   max-height: none;
 }
 
+/* Kopteksten voor categorie en secties */
 .todo-wrapper h2 {
   color: #35f2aa;
   margin-bottom: 20px;
@@ -184,6 +194,7 @@ body, html {
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Stijl voor individuele taken */
 .todo-list li {
   background-color: #7b55c7;
   padding: 15px;
@@ -222,7 +233,7 @@ body, html {
   cursor: pointer;
 }
 
-/* Overlay & mobiel */
+/* Overlay voor sidebar op mobiel */
 #sidebar-overlay {
   display: none;
   position: fixed;
@@ -238,7 +249,7 @@ body, html {
   display: block;
 }
 
-/* Filter dropdown */
+/* Filter dropdown voor sorteren */
 .filter-container {
   display: flex;
   align-items: center;
@@ -261,7 +272,7 @@ body, html {
   cursor: pointer;
 }
 
-/* Responsive */
+/* Responsive ontwerp voor mobiel */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -278,11 +289,6 @@ body, html {
 
   .menu-toggle {
     display: block;
-  }
-
-  .app-container {
-    width: 100vw;
-    overflow-x: hidden;
   }
 
   .main-content {
@@ -315,7 +321,7 @@ body, html {
   }
 }
 
-/* Animatie voor afvinken */
+/* Animatie voor het afvinken van een taak */
 .complete-animate {
   animation: completeTask 0.3s ease forwards;
 }
@@ -331,7 +337,7 @@ body, html {
   }
 }
 
-/* Animatie voor verwijderen */
+/* Animatie voor het verwijderen van een taak */
 .delete-animate {
   animation: deleteTask 0.3s ease forwards;
 }
@@ -347,7 +353,7 @@ body, html {
   }
 }
 
-/* Voeg scrollbar styling toe voor betere gebruikerservaring */
+/* Scrollbar styling voor prettige gebruikerservaring */
 .todo-wrapper::-webkit-scrollbar,
 .todo-list::-webkit-scrollbar,
 .completed-list::-webkit-scrollbar {
@@ -374,6 +380,7 @@ body, html {
   background: rgba(255, 255, 255, 0.4);
 }
 
+/* Animatie voor gradient bij afronden taak */
 @keyframes wrapperGradient {
   0% {
     background-color: #640e8e;
@@ -390,6 +397,7 @@ body, html {
   animation: wrapperGradient 5s ease;
 }
 
+/* Stijl voor voortgangsbalk en slider */
 .task-item {
   position: relative;
   overflow: hidden;
@@ -431,6 +439,7 @@ body, html {
   z-index: 3;
 }
 
+/* Help-button rechtsonder en overlay met uitleg */
 .help-btn {
   position: fixed;
   right: 24px;
